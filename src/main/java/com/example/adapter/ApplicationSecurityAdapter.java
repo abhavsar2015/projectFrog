@@ -31,55 +31,54 @@ import org.springframework.session.web.http.HttpSessionStrategy;
 @EnableWebSecurity
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class ApplicationSecurityAdapter extends WebSecurityConfigurerAdapter {
-	@Value("${application.username}")
-	private String username;
-	@Value("${application.password}")
-	private String password;
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-	  //  web.ignoring().antMatchers("/api/addStudentDetails");
-	   // web.ignoring().antMatchers("/api/getStudentInfoByName/{name}");
-	   // web.ignoring().antMatchers("/api/getStudentInfoById/{id}");
-	    //web.ignoring().antMatchers("/api/getStudentInfoByLastName/{name}");
-	}
-	 private static String REALM="MY_TEST_REALM";
-     
-	    @Autowired
-	    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-	        auth.inMemoryAuthentication().withUser(username).password(password).roles("ADMIN");
-	     }
-	     
-	    @Override
-	    protected void configure(HttpSecurity http) throws Exception {
-	  
-	      http.csrf().disable().cors().and()
-	        .authorizeRequests()
-	        .antMatchers("/token").hasRole("ADMIN")
-	        .antMatchers("/api/addStudentDetails").hasRole("ADMIN")
-	        .antMatchers("/api/getStudentInfoByName/{name}").hasRole("ADMIN")
-	        .antMatchers("/api/getStudentInfoById").hasRole("ADMIN")
-	        .antMatchers("/api/getStudentInfoByclassDetails/{class}").hasRole("ADMIN")
-	        .antMatchers("/api/deleteById/{id}").hasRole("ADMIN")
-	        .antMatchers("/api/updateByData").hasRole("ADMIN")
-	        .and().httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint());
-	        http.sessionManagement()
-	    	.sessionFixation().migrateSession()
-	    	.invalidSessionUrl("/")
-	    	.maximumSessions(1)
-	    	.maxSessionsPreventsLogin(false)
-	    	.expiredUrl("/login");
-	    }
-	     
-	    @Bean
-	    public CustomBasicAuthenticationEntryPoint getBasicAuthEntryPoint(){
-	        return new CustomBasicAuthenticationEntryPoint();
-	    }
-	     
-	    @Bean
-		public HttpSessionStrategy httpSessionStrategy()
-		{
-			return new HeaderHttpSessionStrategy();
-		}
-	    
-	   
+ @Value("${application.username}")
+ private String username;
+ @Value("${application.password}")
+ private String password;
+ @Override
+ public void configure(WebSecurity web) throws Exception {
+  //  web.ignoring().antMatchers("/api/addStudentDetails");
+  // web.ignoring().antMatchers("/api/getStudentInfoByName/{name}");
+  // web.ignoring().antMatchers("/api/getStudentInfoById/{id}");
+  //web.ignoring().antMatchers("/api/getStudentInfoByLastName/{name}");
+ }
+ private static String REALM = "MY_TEST_REALM";
+
+ @Autowired
+ public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+  auth.inMemoryAuthentication().withUser(username).password(password).roles("ADMIN");
+ }
+
+ @Override
+ protected void configure(HttpSecurity http) throws Exception {
+
+  http.csrf().disable().cors().and()
+   .authorizeRequests()
+   .antMatchers("/token").hasRole("ADMIN")
+   .antMatchers("/api/addStudentDetails").hasRole("ADMIN")
+   .antMatchers("/api/getStudentInfoByName/{name}").hasRole("ADMIN")
+   .antMatchers("/api/getStudentInfoById").hasRole("ADMIN")
+   .antMatchers("/api/getStudentInfoByclassDetails/{class}").hasRole("ADMIN")
+   .antMatchers("/api/deleteById/{id}").hasRole("ADMIN")
+   .antMatchers("/api/updateByData").hasRole("ADMIN")
+   .and().httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint());
+  http.sessionManagement()
+   .sessionFixation().migrateSession()
+   .invalidSessionUrl("/")
+   .maximumSessions(1)
+   .maxSessionsPreventsLogin(false)
+   .expiredUrl("/login");
+ }
+
+ @Bean
+ public CustomBasicAuthenticationEntryPoint getBasicAuthEntryPoint() {
+  return new CustomBasicAuthenticationEntryPoint();
+ }
+
+ @Bean
+ public HttpSessionStrategy httpSessionStrategy() {
+  return new HeaderHttpSessionStrategy();
+ }
+
+
 }

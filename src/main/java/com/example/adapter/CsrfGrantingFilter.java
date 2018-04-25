@@ -16,28 +16,28 @@ import org.springframework.security.web.csrf.CsrfToken;
 
 public class CsrfGrantingFilter implements Filter {
 
-	  @Override
-	  public void init(FilterConfig filterConfig) throws ServletException {}
+ @Override
+ public void init(FilterConfig filterConfig) throws ServletException {}
 
-	  @Override
-	  public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-	      throws IOException, ServletException {
-	    CsrfToken csrf = (CsrfToken) servletRequest.getAttribute(CsrfToken.class.getName());
-	    String token = csrf.getToken();
-	    if (token != null && isAuthenticating(servletRequest)) {
-	      HttpServletResponse response = (HttpServletResponse) servletResponse;
-	      Cookie cookie = new Cookie("XSRF-TOKEN", token);
-	      cookie.setPath("/");
-	      response.addCookie(cookie);
-	    }
-	    filterChain.doFilter(servletRequest, servletResponse);
-	  }
+ @Override
+ public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+ throws IOException, ServletException {
+  CsrfToken csrf = (CsrfToken) servletRequest.getAttribute(CsrfToken.class.getName());
+  String token = csrf.getToken();
+  if (token != null && isAuthenticating(servletRequest)) {
+   HttpServletResponse response = (HttpServletResponse) servletResponse;
+   Cookie cookie = new Cookie("XSRF-TOKEN", token);
+   cookie.setPath("/");
+   response.addCookie(cookie);
+  }
+  filterChain.doFilter(servletRequest, servletResponse);
+ }
 
-	  private boolean isAuthenticating(ServletRequest servletRequest) {
-	    HttpServletRequest request = (HttpServletRequest) servletRequest;
-	    return request.getRequestURI().equals("/api/login");
-	  }
+ private boolean isAuthenticating(ServletRequest servletRequest) {
+  HttpServletRequest request = (HttpServletRequest) servletRequest;
+  return request.getRequestURI().equals("/api/login");
+ }
 
-	  @Override
-	  public void destroy() {}
-	}
+ @Override
+ public void destroy() {}
+}

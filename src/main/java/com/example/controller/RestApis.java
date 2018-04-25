@@ -35,142 +35,121 @@ import com.example.service.ProjectFrogDef;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class RestApis {
-	@Autowired
-	ProjectFrogDef frogSer;
-	
-	 @GetMapping("/token")
-	    public Map<String,String> token(HttpSession session) {
-	      return Collections.singletonMap("token", session.getId());
-	    }
-	
-	@RequestMapping(value = "/api/addStudentDetails", method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-   public ResponseEntity<StudentInfo> addStudentDetails(@RequestBody StudentInfo parameters) throws Exception {
-      
-       if (StringUtils.isEmpty(parameters)) {
-           return new ResponseEntity("please add proper data!", HttpStatus.OK);
-       }
-       System.out.println(parameters);
-       StudentInfo id=frogSer.addStudentInfo(parameters);
-       
-	   System.out.println(id);
-       if(id==null)
-       {
-    	   return new ResponseEntity<StudentInfo>(HttpStatus.NOT_FOUND);
-       }
-       else
-       {
-     	   return new ResponseEntity<StudentInfo>(id, HttpStatus.OK);
-       }
-       
-   }
-	@RequestMapping(value = "/api/deleteById/{id}", method = RequestMethod.DELETE,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-   public ResponseEntity<List<StudentInfo>> deleteById(@PathVariable("id") String name) throws Exception {
-      
-       if (StringUtils.isEmpty(name)) {
-           return new ResponseEntity("please add proper data!", HttpStatus.OK);
-       }
-       System.out.println(name);
-       List<StudentInfo> students=frogSer.deleteById(name);
-       
-	   
-       if(students==null)
-       {
-    	   return new ResponseEntity<List<StudentInfo>>(HttpStatus.NOT_FOUND);
-       }
-       else
-       {
-     	   return new ResponseEntity<List<StudentInfo>>(students, HttpStatus.OK);
-       }
-       
-   }
-	@RequestMapping(value = "/api/getStudentInfoByName/{name}", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<StudentInfo>> getStudentByFirst(@PathVariable("name") String name) throws Exception {
-       List<StudentInfo> students=frogSer.getStudentInfoByName(name);
-	   System.out.println(students);
-	   if(students==null)
-       {
-    	 
-    	   return new ResponseEntity<List<StudentInfo>>(HttpStatus.NOT_FOUND);      
-       }
-       else
-       {
-    	   return new ResponseEntity<List<StudentInfo>>(students, HttpStatus.OK);         
-       }
-     }
-	@RequestMapping(value = "/api/getStudentInfoByLastName/{name}", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<StudentInfo>> getStudentByLast(@PathVariable("name") String name) throws Exception {
-       List<StudentInfo> students=frogSer.getStudentInfoByLastName(name);
-	   System.out.println(students);
-	   if(students==null)
-       {
-    	 
-    	   return new ResponseEntity<List<StudentInfo>>(HttpStatus.NOT_FOUND);      
-       }
-       else
-       {
-    	   return new ResponseEntity<List<StudentInfo>>(students, HttpStatus.OK);         
-       }
-     }
-	
-	@RequestMapping(value = "/api/getStudentInfoByclassDetails/{class}", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<StudentInfo>> getStudentByClass(@PathVariable("class") String name) throws Exception {
-       List<StudentInfo> students=frogSer.getStudentInfoByClass(name);
-	   System.out.println(students);
-	   if(students==null)
-       {
-    	 
-    	   return new ResponseEntity<List<StudentInfo>>(HttpStatus.NOT_FOUND);      
-       }
-       else
-       {
-    	   return new ResponseEntity<List<StudentInfo>>(students, HttpStatus.OK);         
-       }
-     }
-	
-	@RequestMapping(value = "/api/getStudentInfoById/{id}", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<StudentInfo>> getStudentInfoById(@PathVariable("id") long id) throws Exception {
-       List<StudentInfo> students=frogSer.getStudentInfoById(id);
-	   System.out.println(students);
-	   if(students==null)
-       {
-    	 
-    	   return new ResponseEntity<List<StudentInfo>>(HttpStatus.NOT_FOUND);      
-       }
-       else
-       {
-    	   return new ResponseEntity<List<StudentInfo>>(students, HttpStatus.OK);         
-       }
-       
-   }
-	@RequestMapping(value = "/api/updateByData", method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<StudentInfo>> uddateByDetails(@RequestBody StudentInfo parameters) throws Exception {
-       List<StudentInfo> students=frogSer.updateByDetails(parameters);
-	   System.out.println(students);
-	   if(students==null)
-       {
-    	 
-    	   return new ResponseEntity<List<StudentInfo>>(HttpStatus.NOT_FOUND);      
-       }
-       else
-       {
-    	   return new ResponseEntity<List<StudentInfo>>(students, HttpStatus.OK);         
-       }
-       
-   }
-	@RequestMapping(value="/api/logout", method = RequestMethod.GET)
-    public ResponseEntity<String> logoutPage (HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){    
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        
-        return new ResponseEntity<String>(HttpStatus.OK);//You can redirect wherever you want, but generally it's a good practice to show login screen again.
-    }
+ @Autowired
+ ProjectFrogDef frogSer;
+
+ @GetMapping("/token")
+ public Map < String, String > token(HttpSession session) {
+  return Collections.singletonMap("token", session.getId());
+ }
+
+ @RequestMapping(value = "/api/addStudentDetails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+ @ResponseBody
+ public ResponseEntity < StudentInfo > addStudentDetails(@RequestBody StudentInfo parameters) throws Exception {
+
+  if (StringUtils.isEmpty(parameters)) {
+   return new ResponseEntity("please add proper data!", HttpStatus.OK);
+  }
+  System.out.println(parameters);
+  StudentInfo id = frogSer.addStudentInfo(parameters);
+
+  System.out.println(id);
+  if (id == null) {
+   return new ResponseEntity < StudentInfo > (HttpStatus.NOT_FOUND);
+  } else {
+   return new ResponseEntity < StudentInfo > (id, HttpStatus.OK);
+  }
+
+ }
+ @RequestMapping(value = "/api/deleteById/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+ @ResponseBody
+ public ResponseEntity < List < StudentInfo >> deleteById(@PathVariable("id") String name) throws Exception {
+
+  if (StringUtils.isEmpty(name)) {
+   return new ResponseEntity("please add proper data!", HttpStatus.OK);
+  }
+  System.out.println(name);
+  List < StudentInfo > students = frogSer.deleteById(name);
+
+
+  if (students == null) {
+   return new ResponseEntity < List < StudentInfo >> (HttpStatus.NOT_FOUND);
+  } else {
+   return new ResponseEntity < List < StudentInfo >> (students, HttpStatus.OK);
+  }
+
+ }
+ @RequestMapping(value = "/api/getStudentInfoByName/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+ @ResponseBody
+ public ResponseEntity < List < StudentInfo >> getStudentByFirst(@PathVariable("name") String name) throws Exception {
+  List < StudentInfo > students = frogSer.getStudentInfoByName(name);
+  System.out.println(students);
+  if (students == null) {
+
+   return new ResponseEntity < List < StudentInfo >> (HttpStatus.NOT_FOUND);
+  } else {
+   return new ResponseEntity < List < StudentInfo >> (students, HttpStatus.OK);
+  }
+ }
+ @RequestMapping(value = "/api/getStudentInfoByLastName/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+ @ResponseBody
+ public ResponseEntity < List < StudentInfo >> getStudentByLast(@PathVariable("name") String name) throws Exception {
+  List < StudentInfo > students = frogSer.getStudentInfoByLastName(name);
+  System.out.println(students);
+  if (students == null) {
+
+   return new ResponseEntity < List < StudentInfo >> (HttpStatus.NOT_FOUND);
+  } else {
+   return new ResponseEntity < List < StudentInfo >> (students, HttpStatus.OK);
+  }
+ }
+
+ @RequestMapping(value = "/api/getStudentInfoByclassDetails/{class}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+ @ResponseBody
+ public ResponseEntity < List < StudentInfo >> getStudentByClass(@PathVariable("class") String name) throws Exception {
+  List < StudentInfo > students = frogSer.getStudentInfoByClass(name);
+  System.out.println(students);
+  if (students == null) {
+
+   return new ResponseEntity < List < StudentInfo >> (HttpStatus.NOT_FOUND);
+  } else {
+   return new ResponseEntity < List < StudentInfo >> (students, HttpStatus.OK);
+  }
+ }
+
+ @RequestMapping(value = "/api/getStudentInfoById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+ @ResponseBody
+ public ResponseEntity < List < StudentInfo >> getStudentInfoById(@PathVariable("id") long id) throws Exception {
+  List < StudentInfo > students = frogSer.getStudentInfoById(id);
+  System.out.println(students);
+  if (students == null) {
+
+   return new ResponseEntity < List < StudentInfo >> (HttpStatus.NOT_FOUND);
+  } else {
+   return new ResponseEntity < List < StudentInfo >> (students, HttpStatus.OK);
+  }
+
+ }
+ @RequestMapping(value = "/api/updateByData", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+ @ResponseBody
+ public ResponseEntity < List < StudentInfo >> uddateByDetails(@RequestBody StudentInfo parameters) throws Exception {
+  List < StudentInfo > students = frogSer.updateByDetails(parameters);
+  System.out.println(students);
+  if (students == null) {
+
+   return new ResponseEntity < List < StudentInfo >> (HttpStatus.NOT_FOUND);
+  } else {
+   return new ResponseEntity < List < StudentInfo >> (students, HttpStatus.OK);
+  }
+
+ }
+ @RequestMapping(value = "/api/logout", method = RequestMethod.GET)
+ public ResponseEntity < String > logoutPage(HttpServletRequest request, HttpServletResponse response) {
+  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+  if (auth != null) {
+   new SecurityContextLogoutHandler().logout(request, response, auth);
+  }
+
+  return new ResponseEntity < String > (HttpStatus.OK); //You can redirect wherever you want, but generally it's a good practice to show login screen again.
+ }
 }
