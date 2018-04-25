@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.model.StudentInfo;
 import com.example.repository.FrogRepositoryDef;
-import com.jaycon.repository.JayconRepositoryDef;
+
 
 @Service("ProjectFrogService")
 public class ProjectFrogImpl implements ProjectFrogDef {
@@ -18,28 +18,33 @@ public class ProjectFrogImpl implements ProjectFrogDef {
 	
 	 public StudentInfo addStudentInfo(StudentInfo a)
 	 	{
-		  StudentInfo a=new StudentInfo();
-		  return a;
- 	     }
-	 public List<StudentInfo> getStudentInfoById(String Id)
+		  return orderrepository.addStudentInfo(a);
+		 }
+	 
+	 public List<StudentInfo> getStudentInfoById(long Id)
 	    {
-		    StudentInfo a=new StudentInfo();
-		    List<StudentInfo> b=new ArrayList<StudentInfo>();
-		    b.add(a);
-		    return b;
+		    return orderrepository.getStudentInfoById(Id);
 	    }
+	 
 	 public List<StudentInfo> getStudentInfoByClass(String className)
 	    {
-		 	StudentInfo a=new StudentInfo();
-		    List<StudentInfo> b=new ArrayList<StudentInfo>();
-		    b.add(a);
-		    return b;
+		   return orderrepository.getStudentInfoByClass(className);
 	    }
+	 
 	 public List<StudentInfo> getStudentInfoByName(String student)
 	    {
-		 	StudentInfo a=new StudentInfo();
-		    List<StudentInfo> b=new ArrayList<StudentInfo>();
-		    b.add(a);
-		    return b;
+		 	return orderrepository.getStudentInfoByName(student);
+	    }
+	 public List<StudentInfo> getStudentInfoByLastName(String student)
+	    {
+		 	return orderrepository.getStudentInfoByLastName(student);
+	    }
+	 public List<StudentInfo> deleteById(String student)
+	    {
+		 	return orderrepository.deleteById(student);
+	    }
+	 public List<StudentInfo> updateByDetails(StudentInfo a)
+	    {
+		 	return orderrepository.updateByDetails(a);
 	    }
 }
