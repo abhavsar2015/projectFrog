@@ -33,7 +33,6 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
 		AccessDeniedException accessDeniedException)
                 throws IOException, ServletException {
 
-		//do some business logic, then redirect to errorPage url
 		response.sendError(HttpServletResponse.SC_EXPECTATION_FAILED);
 
 	}
